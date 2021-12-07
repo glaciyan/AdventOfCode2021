@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.Diagnostics.Tracing;
+using System.Linq;
 using System.Text;
 
 Console.WriteLine($"first {First()}");
@@ -18,14 +19,7 @@ static int First()
 
   for (int i = 0; i < diagnostics[0].Length; i++)
   {
-    var ones = 0;
-
-    foreach (var diagnostic in diagnostics)
-    {
-      if (diagnostic[i] == '1') ones++;
-    }
-
-    gammaRateStr += ones > diagnostics.Count / 2 ? "1" : "0";
+    gammaRateStr += MostCommonBit(diagnostics, i);
   }
 
   var gammaRate = Convert.ToInt32(gammaRateStr, 2);
@@ -36,7 +30,49 @@ static int First()
 
 static int Second()
 {
+  var input = new StreamReader("./input.txt");
+  var diagnostics = new List<string>();
+  while (!input.EndOfStream)
+  {
+    diagnostics.Add(input.ReadLine()!);
+  }
 
+  var oxygenRating = new List<string>(diagnostics);
+
+  var oxPos = 0;
+  while (oxygenRating.Count > 1)
+  {
+    var mostCommon = MostCommonBit(oxygenRating, oxPos);
+    oxygenRating.RemoveAll((ox) => ox[oxPos] != mostCommon);
+    oxPos++;
+  }
+
+
+  var co2Rating = new List<string>(diagnostics);
+
+  var co2Pos = 0;
+  while (co2Rating.Count > 1)
+  {
+    var mostCommon = MostCommonBit(co2Rating, co2Pos);
+    co2Rating.RemoveAll((co) => co[co2Pos] == mostCommon);
+    co2Pos++;
+  }
+
+  return Convert.ToInt32(oxygenRating[0], 2) * Convert.ToInt32(co2Rating[0], 2);
+}
+
+static char MostCommonBit(List<string> list, int position)
+{
+  var ones = 0;
+
+  foreach (var item in list)
+  {
+    if (item[position] == '1') ones++;
+  }
+
+  if (ones == list.Count - ones) return '1';
+
+  return ones > list.Count - ones ? '1' : '0';
 }
 
 static string InvertBinString(string input)
