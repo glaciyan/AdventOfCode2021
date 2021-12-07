@@ -1,11 +1,12 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.Diagnostics.Tracing;
+using System.Text;
 
 Console.WriteLine($"first {First()}");
 
-static uint First()
+static long First()
 {
-  var input = new StreamReader("./testInput.txt");
+  var input = new StreamReader("./input.txt");
   var diagnostics = new List<string>();
   while (!input.EndOfStream)
   {
@@ -26,7 +27,20 @@ static uint First()
     gammaRateStr += ones > diagnostics.Count / 2 ? "1" : "0";
   }
 
-  var gammaRate = Convert.ToUInt32(gammaRateStr, 2);
+  var gammaRate = Convert.ToInt64(gammaRateStr, 2);
+  var epsilonRate = Convert.ToInt64(InvertBinString(gammaRateStr), 2);
 
-  return gammaRate * ~gammaRate;
+  return gammaRate * epsilonRate;
+}
+
+static string InvertBinString(string input)
+{
+  var builder = new StringBuilder(input.Length);
+
+  foreach (var c in input)
+  {
+    builder.Append(c == '1' ? '0' : '1');
+  }
+
+  return builder.ToString();
 }
