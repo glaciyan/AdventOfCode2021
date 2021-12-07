@@ -1,6 +1,12 @@
-﻿
-Console.WriteLine($"Solution for first challenge is {First()}");
-Console.WriteLine($"Solution for second challenge is {Second()}");
+﻿using System.Diagnostics;
+
+var stopwatch = new Stopwatch();
+stopwatch.Start();
+
+Console.WriteLine($"first {First()}");
+Console.WriteLine($"second {Second()}");
+
+Console.WriteLine($"finished in {stopwatch.Elapsed.Milliseconds}ms");
 
 
 int First()

@@ -1,10 +1,14 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using System.Diagnostics.Tracing;
-using System.Linq;
+using System.Diagnostics;
 using System.Text;
+
+var stopwatch = new Stopwatch();
+stopwatch.Start();
 
 Console.WriteLine($"first {First()}");
 Console.WriteLine($"second {Second()}");
+
+Console.WriteLine($"finished in {stopwatch.Elapsed.Milliseconds}ms");
 
 static int First()
 {
