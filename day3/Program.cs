@@ -3,8 +3,9 @@ using System.Diagnostics.Tracing;
 using System.Text;
 
 Console.WriteLine($"first {First()}");
+Console.WriteLine($"second {Second()}");
 
-static long First()
+static int First()
 {
   var input = new StreamReader("./input.txt");
   var diagnostics = new List<string>();
@@ -27,10 +28,15 @@ static long First()
     gammaRateStr += ones > diagnostics.Count / 2 ? "1" : "0";
   }
 
-  var gammaRate = Convert.ToInt64(gammaRateStr, 2);
-  var epsilonRate = Convert.ToInt64(InvertBinString(gammaRateStr), 2);
+  var gammaRate = Convert.ToInt32(gammaRateStr, 2);
+  var epsilonRate = Convert.ToInt32(InvertBinString(gammaRateStr), 2);
 
   return gammaRate * epsilonRate;
+}
+
+static int Second()
+{
+
 }
 
 static string InvertBinString(string input)
